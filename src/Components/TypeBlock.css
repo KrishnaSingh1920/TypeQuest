@@ -1,0 +1,217 @@
+/* Blue Theme CSS for TypeBlock Component */
+
+.typeblock-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    font-family: sans-serif;
+    padding: 20px;
+    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    transition: background 0.3s ease;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.button-group button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    background: linear-gradient(315deg, #3a8cff, #4f99ff, #65a6ff, #7abfff, #3a8cff, #4f99ff, #65a6ff);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    border-radius: 4px;
+    border: 1px solid rgb(240, 239, 255);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-group button:hover {
+    background: linear-gradient(315deg, #0f6bd1, #137ff5, #177cff, #4a9fff, #6cbfff, #8ddfff, #b0f0ff);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    transform: scale(1.05);
+}
+
+.text-display {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: linear-gradient(315deg, #3a8cff, #4f99ff, #65a6ff, #7abfff, #3a8cff, #4f99ff, #65a6ff);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    border-radius: 4px;
+    border: 2.5px solid rgb(0, 60, 255);
+    outline: none;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.word {
+    margin-right: 0.25rem;
+    transition: color 0.2s ease;
+}
+
+.word.correct {
+    color: #22ff00;
+}
+
+.word.incorrect {
+    color: #ff0000;
+}
+
+.correct-letter {
+    color: #22ff00;
+}
+
+.incorrect-letter {
+    color: #ff0000;
+}
+
+.reset-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: linear-gradient(315deg, #3a8cff, #4f99ff, #65a6ff, #7abfff, #3a8cff, #4f99ff, #65a6ff);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    border-radius: 4px;
+    border: 1px solid rgb(240, 239, 255);
+    color: #ffffff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin: 0 auto;
+}
+
+.reset-button:hover {
+    background: linear-gradient(315deg, #0f6bd1, #137ff5, #177cff, #4a9fff, #6cbfff, #8ddfff, #b0f0ff);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    transform: scale(1.05);
+}
+
+.stats {
+    margin-top: 20px;
+    padding: 15px;
+    background: linear-gradient(315deg, #9dc9ff, #63b1ff, #9dc9ff, #63b1ff, #1682d4);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    animation: fadeInStats 0.5s forwards;
+}
+
+@keyframes fadeInStats {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stats p {
+    margin: 5px 0;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    color: #333;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: slideIn 0.3s ease forwards;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+}
+
+.modal-content form {
+    margin: 15px 0;
+}
+
+.modal-content input[type="number"],
+.modal-content textarea {
+    width: 80%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.modal-content button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    background-color: #444444;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 5px;
+}
+
+.modal-content button:hover {
+    background-color: #555555;
+    transform: scale(1.05);
+}
+
+.close-modal {
+    background-color: #bb0000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

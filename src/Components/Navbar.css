@@ -1,0 +1,100 @@
+/* Base styles for nav and animation for the moving gradient background */
+nav {
+    display: flex;
+    padding: 10px 0;
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Gradient animation keyframes */
+  @keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Left section styles */
+  .left {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    gap: 20px;
+  }
+  
+  /* Logo styles */
+  .logo {
+    display: flex;
+    background: linear-gradient(45deg, #33ff18, #85d6ff, #ff3091, #f42100);
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7.5px;
+    color: rgb(0, 0, 0);
+  }
+  
+  /* Theme change button styles */
+  .themeChange {
+    width: 30px;
+    height: 30px;
+    /* Using an icon image as background (optional) */
+    background-image: url("https://img.icons8.com/?size=100&id=a7ZmJI191kCO&format=png&color=000000");
+    background-position: center;
+    background-size: contain;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  
+  /* Right section styles */
+  .right {
+    width: 60%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+  
+  /* List styles */
+  ul {
+    display: flex;
+    gap: 50px;
+    padding-right: 20px;
+    list-style: none;
+    margin: 0;
+  }
+  
+  /* ----- Theme specific styles ----- */
+  
+  /* Light theme: a lighter gradient from light grey to a soft wine tone */
+  nav.light {
+    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    color: #f5f5f5;
+  }
+  
+  /* Dark theme: a deeper gradient from grey to a rich wine color */
+  nav.dark {
+    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    color: #f5f5f5;
+  }
+  
+  @keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
