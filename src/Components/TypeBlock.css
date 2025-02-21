@@ -1,5 +1,3 @@
-
-
 .typeblock {
     display: flex;
     align-items: center;
@@ -11,7 +9,7 @@
     position: relative; /* Needed for pseudo-element positioning */
     min-width: 80vw;
     min-height: 60vh;
-    margin: 2rem 2rem;
+    margin: 2rem;
     font-family: 'Times New Roman', Times, serif;
     padding: 20px;
     background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
@@ -267,19 +265,20 @@
     opacity: 0;
     pointer-events: none;
 }
-.leftbuttons
-{
-display: flex;
-width: 50%;
-gap: 20px;
+
+.leftbuttons {
+    display: flex;
+    width: 50%;
+    gap: 20px;
 }
-.rightbuttons
-{
+
+.rightbuttons {
     display: flex;
     justify-content: end;
     width: 50%;
     gap: 20px;
 }
+
 .AppLogo {
     margin-top: 20px;
     border-radius: 5px;
@@ -291,11 +290,27 @@ gap: 20px;
     -webkit-text-fill-color: transparent;
 }
 
-.background
-{
-        background: linear-gradient(315deg, #1a3a5a, #122b45, #15324a, #0e1f38, #1a3a5a, #122b45, #15324a);
-        background-size: 400% 400%;
-        animation: gradient 10s ease infinite;
-        min-height: 100vh;
-        font-family: 'Times New Roman', Times, serif;
+.background {
+    background: linear-gradient(315deg, #1a3a5a, #122b45, #15324a, #0e1f38, #1a3a5a, #122b45, #15324a);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    min-height: 100vh;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 600px) {
+    .typeblock-container {
+        min-width: 75vw;
+        margin: 1rem;
+        padding: 15px;
+    }
+    .text-display {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+    .button-group {
+        flex-direction: column;
+        gap: 8px;
+    }
 }

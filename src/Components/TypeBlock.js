@@ -17,9 +17,7 @@ const generateRandomText = (numWords) => {
 };
 
 const TypeBlock = () => {
-  // containerRef is used for flashing the whole container
   const containerRef = useRef(null);
-  // inputRef is used for focusing and capturing keystrokes
   const inputRef = useRef(null);
 
   const [wordCount, setWordCount] = useState(25);
@@ -37,27 +35,27 @@ const TypeBlock = () => {
   const [customTextInput, setCustomTextInput] = useState('');
   const [customText, setCustomText] = useState(null);
 
-  // Helper for reset/preset buttons: flash then execute the action.
+  // Flash the container then execute the action
   const flashAndExecute = (action) => {
     if (containerRef.current) {
       containerRef.current.classList.add('flash');
       setTimeout(() => {
         containerRef.current.classList.remove('flash');
         action();
-      }, 500); // 500ms flash for these buttons
+      }, 500);
     } else {
       action();
     }
   };
 
-  // Helper for modal closures: execute action (i.e. close modal) immediately then flash.
+  // Execute action immediately then flash the container
   const executeAndFlash = (action) => {
     action();
     if (containerRef.current) {
       containerRef.current.classList.add('flash');
       setTimeout(() => {
         containerRef.current.classList.remove('flash');
-      }, 1000); // 1s flash duration for modal closures
+      }, 1000);
     }
   };
 
@@ -87,7 +85,7 @@ const TypeBlock = () => {
   const words = text.split(' ');
 
   const handleKeyDown = (e) => {
-    if (endTime) return; // ignore input after test is complete
+    if (endTime) return; // Ignore input if test is complete
 
     // Start timer on first valid character
     if (!startTime && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
@@ -100,6 +98,7 @@ const TypeBlock = () => {
       return;
     }
 
+    // When space is pressed via keyDown (desktop)
     if (e.key === " ") {
       e.preventDefault();
       const typedWord = userInput;
@@ -123,7 +122,25 @@ const TypeBlock = () => {
     }
   };
 
-  // For reset/preset buttons:
+  // New effect to catch space input on mobile via onChange
+  useEffect(() => {
+    if (!endTime && userInput.endsWith(" ")) {
+      // Process the current word when a trailing space is detected
+      const typedWord = userInput.trim();
+      const expectedWord = words[currentWordIndex];
+      const isCorrect = typedWord === expectedWord;
+      const newStatus = [...wordStatus];
+      newStatus[currentWordIndex] = isCorrect ? 'correct' : 'incorrect';
+      setWordStatus(newStatus);
+      const nextIndex = currentWordIndex + 1;
+      setCurrentWordIndex(nextIndex);
+      setUserInput('');
+      if (nextIndex === words.length) {
+        setEndTime(Date.now());
+      }
+    }
+  }, [userInput, endTime, currentWordIndex, wordStatus, words]);
+
   const handleReset = () => flashAndExecute(initializeTest);
 
   let stats = null;
@@ -140,7 +157,6 @@ const TypeBlock = () => {
     e.preventDefault();
     const count = parseInt(customCount, 10);
     if (!isNaN(count) && count > 0) {
-      // Close modal immediately then flash.
       executeAndFlash(() => {
         setCustomText(null);
         setWordCount(count);
@@ -153,7 +169,6 @@ const TypeBlock = () => {
   const handleCustomTextSubmit = (e) => {
     e.preventDefault();
     if (customTextInput.trim() !== "") {
-      // Close modal immediately then flash.
       executeAndFlash(() => {
         setCustomText(customTextInput);
         setShowTextModal(false);
@@ -190,10 +205,9 @@ const TypeBlock = () => {
                 const className = 'word ' + (wordStatus[index] === 'correct' ? 'correct' : 'incorrect');
                 return <span key={index} className={className}>{word} </span>;
               } else if (index === currentWordIndex) {
-                const expectedWord = word;
                 return (
                   <span key={index} className="word current">
-                    {expectedWord.split('').map((letter, idx) => {
+                    {word.split('').map((letter, idx) => {
                       let letterClass = "";
                       if (idx < userInput.length) {
                         letterClass = userInput[idx] === letter ? 'correct-letter' : 'incorrect-letter';
@@ -213,14 +227,16 @@ const TypeBlock = () => {
             })}
           </div>
 
-          {/* Hidden input for mobile devices */}
+          {/* Hidden input for capturing keystrokes */}
           <input
             ref={inputRef}
             type="text"
             className="hidden-input"
             value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
+            onChange={(e) => setUserInput(e.target.value.toLowerCase())}
             onKeyDown={handleKeyDown}
+            autoCapitalize="none"
+            autoCorrect="off"
           />
 
           <button onClick={handleReset} className="reset-button">
