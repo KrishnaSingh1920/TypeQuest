@@ -163,9 +163,9 @@ const TypeBlock = () => {
   // NEW: Finish handler that ends the test and calculates the result
   const handleFinish = () => {
     if (endTime) return; // Test already finished
-    // Blur the input to close the mobile keyboard
     if (inputRef.current) inputRef.current.blur();
-    // Process the current word if there's any input
+    
+    // Process current word if there's input
     if (userInput.trim() !== "") {
       const typedWord = userInput.trim();
       const expectedWord = words[currentWordIndex];
@@ -173,10 +173,11 @@ const TypeBlock = () => {
       const newStatus = [...wordStatus];
       newStatus[currentWordIndex] = isCorrect ? 'correct' : 'incorrect';
       setWordStatus(newStatus);
+      setCurrentWordIndex(prev => prev + 1); // Critical fix here
     }
+    
     setEndTime(Date.now());
   };
-
   let stats = null;
   if (endTime && startTime) {
     const correctCount = wordStatus.filter(status => status === 'correct').length;
