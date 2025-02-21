@@ -27,10 +27,10 @@ const TypeBlock = () => {
   const [wordStatus, setWordStatus] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  
+
   const [showCountModal, setShowCountModal] = useState(false);
   const [customCount, setCustomCount] = useState('');
-  
+
   const [showTextModal, setShowTextModal] = useState(false);
   const [customTextInput, setCustomTextInput] = useState('');
   const [customText, setCustomText] = useState(null);
@@ -180,10 +180,15 @@ const TypeBlock = () => {
   let stats = null;
   if (endTime && startTime) {
     const correctCount = wordStatus.filter(status => status === 'correct').length;
-    const accuracy = ((correctCount / words.length) * 100).toFixed(2);
+    const processedWords = currentWordIndex; // ✅ Fix: Use actually processed words
+    const accuracy = processedWords > 0 
+      ? ((correctCount / processedWords) * 100).toFixed(2)
+      : 0;
     const timeTakenSec = ((endTime - startTime) / 1000).toFixed(2);
     const timeTakenMin = (endTime - startTime) / 60000;
-    const wpm = timeTakenMin > 0 ? (correctCount / timeTakenMin).toFixed(2) : 0;
+    const wpm = timeTakenMin > 0 
+      ? (correctCount / timeTakenMin).toFixed(2)
+      : 0;
     stats = { accuracy, wpm, timeTakenSec };
   }
 
