@@ -98,7 +98,24 @@ const TypeBlock = () => {
       return;
     }
 
-    // When space is pressed via keyDown (desktop)
+    // If Enter (or GO) is pressed (for mobile)
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (userInput.trim().length > 0) {
+        const typedWord = userInput;
+        const expectedWord = words[currentWordIndex];
+        const isCorrect = typedWord === expectedWord;
+        const newStatus = [...wordStatus];
+        newStatus[currentWordIndex] = isCorrect ? 'correct' : 'incorrect';
+        setWordStatus(newStatus);
+        setCurrentWordIndex(currentWordIndex + 1);
+        setUserInput('');
+      }
+      setEndTime(Date.now());
+      return;
+    }
+
+    // When space is pressed (desktop)
     if (e.key === " ") {
       e.preventDefault();
       const typedWord = userInput;
