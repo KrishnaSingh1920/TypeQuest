@@ -1,31 +1,53 @@
 import React, { useState } from 'react';
 import "./Navbar.css";
 
-const Navbar = () => {
-  // Set up a state for theme mode ("light" or "dark")
+const Navbar = ({ onNavClick }) => {
   const [theme, setTheme] = useState("dark");
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Toggle function to change theme
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === "light" ? "dark" : "light"));
   };
 
+  const handleNavClick = (component) => {
+    onNavClick(component);
+    setMenuOpen(false); // Close the mobile menu after clicking an item
+  };
+
   return (
-    // Apply the current theme as a class on the nav element
     <nav className={theme}>
       <div className="left">
         <div className="logo">KS</div>
-        {/* The themeChange div toggles the theme on click */}
         <div className="themeChange" onClick={toggleTheme}>
-          {/* Optionally, show a label or icon change */}
           {theme === "light" ? "" : ""}
         </div>
       </div>
-      <div className="right">
+      {/* Desktop Menu */}
+      <div className="right desktop-menu">
         <ul>
-          <li>Home</li>
-          <li>About</li>
-          <li>Contact</li>
+          <li onClick={() => handleNavClick("typeblock")}>Home</li>
+          <li onClick={() => handleNavClick("about")}>About</li>
+          <li onClick={() => handleNavClick("contact")}>Contact</li>
+        </ul>
+      </div>
+      {/* Burger icon or Close button for mobile */}
+      {menuOpen ? (
+        <div className="close-menu" onClick={() => setMenuOpen(false)}>
+          ×
+        </div>
+      ) : (
+        <div className="burger mobile-menu-icon" onClick={() => setMenuOpen(true)}>
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+        </div>
+      )}
+      {/* Mobile Menu with slide transition */}
+      <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+        <ul>
+          <li onClick={() => handleNavClick("typeblock")}>Home</li>
+          <li onClick={() => handleNavClick("about")}>About</li>
+          <li onClick={() => handleNavClick("contact")}>Contact</li>
         </ul>
       </div>
     </nav>

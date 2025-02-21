@@ -1,9 +1,18 @@
-/* Blue Theme CSS for TypeBlock Component */
+
+
+.typeblock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
 
 .typeblock-container {
-    max-width: 700px;
-    margin: 2rem auto;
-    font-family: sans-serif;
+    position: relative; /* Needed for pseudo-element positioning */
+    min-width: 80vw;
+    min-height: 60vh;
+    margin: 2rem 2rem;
+    font-family: 'Times New Roman', Times, serif;
     padding: 20px;
     background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
     background-size: 400% 400%;
@@ -14,6 +23,30 @@
     transition: background 0.3s ease;
 }
 
+/* Blue flash overlay (with border-radius inherited) */
+.typeblock-container.flash::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    border-radius: inherit;
+    animation: flashOverlay 0.5s ease-in-out forwards;
+}
+
+@keyframes flashOverlay {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
 .button-group {
     display: flex;
     justify-content: center;
@@ -22,6 +55,8 @@
 }
 
 .button-group button {
+    min-width: 50px;
+    min-height: 50px;
     padding: 8px 16px;
     font-size: 1rem;
     background: linear-gradient(315deg, #3a8cff, #4f99ff, #65a6ff, #7abfff, #3a8cff, #4f99ff, #65a6ff);
@@ -50,10 +85,12 @@
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
     border-radius: 4px;
-    border: 2.5px solid rgb(0, 60, 255);
+    border: 1.5px solid rgb(255, 255, 255);
     outline: none;
     text-align: justify;
     text-justify: inter-word;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .word {
@@ -86,7 +123,6 @@
     border-radius: 4px;
     border: 1px solid rgb(240, 239, 255);
     color: #ffffff;
-    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     display: block;
@@ -109,7 +145,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-    color: #333;
+    color: #ffffff;
     transition: opacity 0.5s ease, transform 0.5s ease;
     opacity: 0;
     animation: fadeInStats 0.5s forwards;
@@ -120,7 +156,6 @@
         opacity: 0;
         transform: translateY(-10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -137,22 +172,46 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
     animation: fadeIn 0.3s ease forwards;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-content {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
-    color: #333;
+    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
     width: 90%;
     max-width: 400px;
     text-align: center;
     animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .modal-content h3 {
@@ -168,16 +227,22 @@
     width: 80%;
     padding: 8px;
     font-size: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid #3755ff;
+    background: linear-gradient(315deg, #9dc9ff, #63b1ff, #9dc9ff, #63b1ff, #1682d4);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
     border-radius: 4px;
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .modal-content button {
     padding: 8px 16px;
     font-size: 1rem;
-    background-color: #444444;
-    border: none;
+    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    border: solid 1px white;
     border-radius: 4px;
     color: #ffffff;
     cursor: pointer;
@@ -186,7 +251,9 @@
 }
 
 .modal-content button:hover {
-    background-color: #555555;
+    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
     transform: scale(1.05);
 }
 
@@ -194,24 +261,41 @@
     background-color: #bb0000;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+/* Hidden input for mobile compatibility */
+.hidden-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.leftbuttons
+{
+display: flex;
+width: 50%;
+gap: 20px;
+}
+.rightbuttons
+{
+    display: flex;
+    justify-content: end;
+    width: 50%;
+    gap: 20px;
+}
+.AppLogo {
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 50px;
+    background: -webkit-linear-gradient(90deg, #00c3ff, #fffbfd);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+.background
+{
+        background: linear-gradient(315deg, #1a3a5a, #122b45, #15324a, #0e1f38, #1a3a5a, #122b45, #15324a);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+        min-height: 100vh;
+        font-family: 'Times New Roman', Times, serif;
 }

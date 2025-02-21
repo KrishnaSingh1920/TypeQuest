@@ -1,100 +1,200 @@
 /* Base styles for nav and animation for the moving gradient background */
 nav {
-    display: flex;
-    padding: 10px 0;
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  padding: 10px 0;
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Times New Roman', Times, serif;
+  position: relative; /* To position the mobile menu absolutely */
+}
+
+/* Gradient animation keyframes */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Left section styles */
+.left {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  gap: 20px;
+}
+
+/* Logo styles */
+.logo {
+  display: flex;
+  background: linear-gradient(45deg, #4e18ff, #08acfd, #5630ff, #009ff4);
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7.5px;
+  color: rgb(255, 255, 255);
+}
+
+/* Theme change button styles */
+.themeChange {
+  width: 30px;
+  height: 30px;
+  background-image: url("https://img.icons8.com/?size=100&id=TR8rT5Dw4euj&format=png&color=FFFFFF");
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* Right section styles */
+.right {
+  width: 60%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  font-size: 20px;
+}
+
+/* List styles for desktop */
+.right ul {
+  display: flex;
+  gap: 50px;
+  padding-right: 20px;
+  list-style: none;
+  margin: 0;
+}
+
+/* Theme specific styles */
+nav.light {
+  background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  color: #f5f5f5;
+}
+
+nav.dark {
+  background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  color: #f5f5f5;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+/* Hover effect for nav items (applies to both desktop and mobile) */
+.right ul li,
+.mobile-menu ul li {
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.right ul li:hover,
+.mobile-menu ul li:hover {
+  transform: scale(1.1);
+  color: #36bfff;
+}
+
+/* ----- Mobile Menu Separator ----- */
+/* Only mobile: add a horizontal bottom border between menu items */
+@media (max-width: 768px) {
+  .mobile-menu ul li {
+    border-bottom: 1px solid #fff;
+    padding-bottom: 10px;
+  }
+}
+
+/* ----- Responsive Styles ----- */
+
+/* Hide mobile menu on desktop */
+.mobile-menu {
+  display: none;
+}
+
+/* Mobile view (adjust the max-width as needed) */
+@media (max-width: 768px) {
+  /* Hide desktop navigation */
+  .right.desktop-menu {
+    display: none;
   }
   
-  /* Gradient animation keyframes */
-  @keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  /* Left section styles */
-  .left {
-    width: 40%;
+  /* Position burger icon / close button at top right */
+  .burger.mobile-menu-icon,
+  .close-menu {
     display: flex;
     align-items: center;
-    padding-left: 10px;
-    gap: 20px;
-  }
-  
-  /* Logo styles */
-  .logo {
-    display: flex;
-    background: linear-gradient(45deg, #33ff18, #85d6ff, #ff3091, #f42100);
-    width: 40px;
-    height: 40px;
     justify-content: center;
-    align-items: center;
-    border-radius: 7.5px;
-    color: rgb(0, 0, 0);
-  }
-  
-  /* Theme change button styles */
-  .themeChange {
-    width: 30px;
-    height: 30px;
-    /* Using an icon image as background (optional) */
-    background-image: url("https://img.icons8.com/?size=100&id=a7ZmJI191kCO&format=png&color=000000");
-    background-position: center;
-    background-size: contain;
+    position: absolute;
+    top: 10px;
+    right: 20px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    z-index: 1100;
   }
   
-  /* Right section styles */
-  .right {
-    width: 60%;
-    display: flex;
-    justify-content: end;
-    align-items: center;
+  /* Burger icon styling */
+  .burger.mobile-menu-icon {
+    margin-top: 5px;
+    width: 30px;
+    height: 25px;
+    flex-direction: column;
+    justify-content: space-between;
   }
   
-  /* List styles */
-  ul {
-    display: flex;
-    gap: 50px;
-    padding-right: 20px;
+  .burger.mobile-menu-icon .line {
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+  }
+  
+  /* Close button styling */
+  .close-menu {
+    font-size: 30px;
+    color: #fff;
+  }
+  
+  /* Mobile menu container styling with slide from right transition and shadow */
+  .mobile-menu {
+    display: block; /* Render only on mobile */
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px; /* Adjust width as needed */
+    height: 100vh;
+    background: inherit; /* Use same animated gradient as nav */
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .mobile-menu.open {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+  .mobile-menu ul {
     list-style: none;
-    margin: 0;
+    padding: 20px;
+    margin-top: 50px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
   }
-  
-  /* ----- Theme specific styles ----- */
-  
-  /* Light theme: a lighter gradient from light grey to a soft wine tone */
-  nav.light {
-    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    color: #f5f5f5;
-  }
-  
-  /* Dark theme: a deeper gradient from grey to a rich wine color */
-  nav.dark {
-    background: linear-gradient(315deg, #0e1319, #1d64ac, #113149, #2467a2, #152a43, #2768a9, #163b56);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-    color: #f5f5f5;
-  }
-  
-  @keyframes gradient {
-    0% {
-        background-position: 0% 0%;
-    }
-
-    50% {
-        background-position: 100% 100%;
-    }
-
-    100% {
-        background-position: 0% 0%;
-    }
 }

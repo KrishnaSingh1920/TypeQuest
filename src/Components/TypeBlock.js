@@ -17,7 +17,11 @@ const generateRandomText = (numWords) => {
 };
 
 const TypeBlock = () => {
+  // containerRef is used for flashing the whole container
   const containerRef = useRef(null);
+  // inputRef is used for focusing and capturing keystrokes
+  const inputRef = useRef(null);
+
   const [wordCount, setWordCount] = useState(25);
   const [text, setText] = useState('');
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -33,6 +37,30 @@ const TypeBlock = () => {
   const [customTextInput, setCustomTextInput] = useState('');
   const [customText, setCustomText] = useState(null);
 
+  // Helper for reset/preset buttons: flash then execute the action.
+  const flashAndExecute = (action) => {
+    if (containerRef.current) {
+      containerRef.current.classList.add('flash');
+      setTimeout(() => {
+        containerRef.current.classList.remove('flash');
+        action();
+      }, 500); // 500ms flash for these buttons
+    } else {
+      action();
+    }
+  };
+
+  // Helper for modal closures: execute action (i.e. close modal) immediately then flash.
+  const executeAndFlash = (action) => {
+    action();
+    if (containerRef.current) {
+      containerRef.current.classList.add('flash');
+      setTimeout(() => {
+        containerRef.current.classList.remove('flash');
+      }, 1000); // 1s flash duration for modal closures
+    }
+  };
+
   const initializeTest = () => {
     let newText = "";
     if (customText && customText.trim() !== "") {
@@ -47,8 +75,8 @@ const TypeBlock = () => {
     setUserInput('');
     setStartTime(null);
     setEndTime(null);
-    if (containerRef.current) {
-      containerRef.current.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
   };
 
@@ -59,7 +87,7 @@ const TypeBlock = () => {
   const words = text.split(' ');
 
   const handleKeyDown = (e) => {
-    if (endTime) return; // if test is finished, ignore input
+    if (endTime) return; // ignore input after test is complete
 
     // Start timer on first valid character
     if (!startTime && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
@@ -95,9 +123,8 @@ const TypeBlock = () => {
     }
   };
 
-  const handleReset = () => {
-    initializeTest();
-  };
+  // For reset/preset buttons:
+  const handleReset = () => flashAndExecute(initializeTest);
 
   let stats = null;
   if (endTime && startTime) {
@@ -113,118 +140,141 @@ const TypeBlock = () => {
     e.preventDefault();
     const count = parseInt(customCount, 10);
     if (!isNaN(count) && count > 0) {
-      setCustomText(null);
-      setWordCount(count);
-      setShowCountModal(false);
-      setCustomCount('');
+      // Close modal immediately then flash.
+      executeAndFlash(() => {
+        setCustomText(null);
+        setWordCount(count);
+        setShowCountModal(false);
+        setCustomCount('');
+      });
     }
   };
 
   const handleCustomTextSubmit = (e) => {
     e.preventDefault();
     if (customTextInput.trim() !== "") {
-      setCustomText(customTextInput);
-      setShowTextModal(false);
-      setCustomTextInput('');
+      // Close modal immediately then flash.
+      executeAndFlash(() => {
+        setCustomText(customTextInput);
+        setShowTextModal(false);
+        setCustomTextInput('');
+      });
     }
   };
 
   return (
-    <div className="typeblock-container">
-      <div className="button-group">
-        <button onClick={() => { setCustomText(null); setWordCount(10); }}>10</button>
-        <button onClick={() => { setCustomText(null); setWordCount(25); }}>25</button>
-        <button onClick={() => { setCustomText(null); setWordCount(50); }}>50</button>
-        <button onClick={() => setShowCountModal(true)}>Custom Count</button>
-        <button onClick={() => setShowTextModal(true)}>Custom Text</button>
-      </div>
-
-      <div
-        className="text-display"
-        ref={containerRef}
-        tabIndex="0"
-        onKeyDown={handleKeyDown}
-      >
-        {words.map((word, index) => {
-          if (index < currentWordIndex) {
-            // Finished words: display with overall color based on correctness
-            const className = 'word ' + (wordStatus[index] === 'correct' ? 'correct' : 'incorrect');
-            return <span key={index} className={className}>{word} </span>;
-          } else if (index === currentWordIndex) {
-            // Current word: render each letter with individual feedback
-            const expectedWord = word;
-            const typedLetters = userInput.split('');
-            return (
-              <span key={index} className="word current">
-                {expectedWord.split('').map((letter, idx) => {
-                  let letterClass = "";
-                  if (idx < typedLetters.length) {
-                    letterClass = typedLetters[idx] === letter ? 'correct-letter' : 'incorrect-letter';
-                  }
-                  return (
-                    <span key={idx} className={letterClass}>
-                      {letter}
-                    </span>
-                  );
-                })}
-                {' '}
-              </span>
-            );
-          } else {
-            // Unfinished words
-            return <span key={index} className="word">{word} </span>;
-          }
-        })}
-      </div>
-
-      <button onClick={handleReset} className="reset-button">
-        Reset
-      </button>
-
-      {endTime && stats && (
-        <div className="stats">
-          <p><strong>Accuracy:</strong> {stats.accuracy}%</p>
-          <p><strong>WPM:</strong> {stats.wpm}</p>
-          <p><strong>Time Taken:</strong> {stats.timeTakenSec} seconds</p>
-        </div>
-      )}
-
-      {showCountModal && (
-        <div className="modal-overlay" onClick={() => setShowCountModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Enter Custom Word Count</h3>
-            <form onSubmit={handleCustomCountSubmit}>
-              <input
-                type="number"
-                value={customCount}
-                onChange={(e) => setCustomCount(e.target.value)}
-                placeholder="Enter number"
-                min="1"
-              />
-              <button type="submit">Set</button>
-            </form>
-            <button className="close-modal" onClick={() => setShowCountModal(false)}>Close</button>
+    <div className='background'>
+      <div className='typeblock'>
+        <div className="AppLogo">Type Quest</div>
+        <div className="typeblock-container" ref={containerRef}>
+          <div className="button-group">
+            <div className="leftbuttons">
+              <button onClick={() => flashAndExecute(() => { setCustomText(null); setWordCount(10); })}>10</button>
+              <button onClick={() => flashAndExecute(() => { setCustomText(null); setWordCount(25); })}>25</button>
+              <button onClick={() => flashAndExecute(() => { setCustomText(null); setWordCount(50); })}>50</button>
+            </div>
+            <div className="rightbuttons">
+              <button onClick={() => setShowCountModal(true)}>Custom Count</button>
+              <button onClick={() => setShowTextModal(true)}>Custom Text</button>
+            </div>
           </div>
-        </div>
-      )}
 
-      {showTextModal && (
-        <div className="modal-overlay" onClick={() => setShowTextModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Enter Custom Text</h3>
-            <form onSubmit={handleCustomTextSubmit}>
-              <textarea
-                value={customTextInput}
-                onChange={(e) => setCustomTextInput(e.target.value)}
-                placeholder="Enter your custom text here..."
-                rows="4"
-              ></textarea>
-              <button type="submit">Set</button>
-            </form>
-            <button className="close-modal" onClick={() => setShowTextModal(false)}>Close</button>
+          <div
+            className="text-display"
+            onClick={() => {
+              if (inputRef.current) inputRef.current.focus();
+            }}
+          >
+            {words.map((word, index) => {
+              if (index < currentWordIndex) {
+                const className = 'word ' + (wordStatus[index] === 'correct' ? 'correct' : 'incorrect');
+                return <span key={index} className={className}>{word} </span>;
+              } else if (index === currentWordIndex) {
+                const expectedWord = word;
+                return (
+                  <span key={index} className="word current">
+                    {expectedWord.split('').map((letter, idx) => {
+                      let letterClass = "";
+                      if (idx < userInput.length) {
+                        letterClass = userInput[idx] === letter ? 'correct-letter' : 'incorrect-letter';
+                      }
+                      return (
+                        <span key={idx} className={letterClass}>
+                          {letter}
+                        </span>
+                      );
+                    })}
+                    {' '}
+                  </span>
+                );
+              } else {
+                return <span key={index} className="word">{word} </span>;
+              }
+            })}
           </div>
+
+          {/* Hidden input for mobile devices */}
+          <input
+            ref={inputRef}
+            type="text"
+            className="hidden-input"
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+
+          <button onClick={handleReset} className="reset-button">
+            Reset
+          </button>
+
+          {endTime && stats && (
+            <div className="stats">
+              <p><strong>Accuracy:</strong> {stats.accuracy}%</p>
+              <p><strong>WPM:</strong> {stats.wpm}</p>
+              <p><strong>Time Taken:</strong> {stats.timeTakenSec} seconds</p>
+            </div>
+          )}
+
+          {showCountModal && (
+            <div className="modal-overlay" onClick={() => executeAndFlash(() => setShowCountModal(false))}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <h3>Enter Custom Word Count</h3>
+                <form onSubmit={handleCustomCountSubmit}>
+                  <input
+                    type="number"
+                    value={customCount}
+                    onChange={(e) => setCustomCount(e.target.value)}
+                    placeholder="Enter number"
+                    min="1"
+                    max="100"
+                  />
+                  <button type="submit">Set</button>
+                </form>
+                <button className="close-modal" onClick={() => executeAndFlash(() => setShowCountModal(false))}>Close</button>
+              </div>
+            </div>
+          )}
+
+          {showTextModal && (
+            <div className="modal-overlay" onClick={() => executeAndFlash(() => setShowTextModal(false))}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <h3>Enter Custom Text</h3>
+                <form onSubmit={handleCustomTextSubmit}>
+                  <textarea
+                    value={customTextInput}
+                    onChange={(e) => setCustomTextInput(e.target.value)}
+                    placeholder="Enter your custom text here..."
+                    rows="5"
+                    maxLength="200"
+                  ></textarea>
+                  <button type="submit">Set</button>
+                </form>
+                <button className="close-modal" onClick={() => executeAndFlash(() => setShowTextModal(false))}>Close</button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,14 @@
-.app {
-    background: linear-gradient(315deg, #1a3a5a, #122b45, #15324a, #0e1f38, #1a3a5a, #122b45, #15324a);
-    background-size: 400% 400%;
-    animation: gradient 10s ease infinite;
-    height: 100vh;
-    font-family: 'Times New Roman', Times, serif;
-}
+.content {
+    transition: filter 0.3s ease-in-out;
+  }
+  
+  /* Blur effect */
+  .content.blur {
+    filter: blur(5px);
+  }
+  
+  /* Unblur effect */
+  .content.unblur {
+    filter: blur(0);
+  }
+  
