@@ -19,7 +19,6 @@ const generateRandomText = (numWords) => {
 const TypeBlock = () => {
   const containerRef = useRef(null);
   const inputRef = useRef(null);
-  const statsRef = useRef(null);
 
   const [wordCount, setWordCount] = useState(25);
   const [text, setText] = useState('');
@@ -28,12 +27,15 @@ const TypeBlock = () => {
   const [wordStatus, setWordStatus] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+
   const [showCountModal, setShowCountModal] = useState(false);
   const [customCount, setCustomCount] = useState('');
+
   const [showTextModal, setShowTextModal] = useState(false);
   const [customTextInput, setCustomTextInput] = useState('');
   const [customText, setCustomText] = useState(null);
 
+  // Flash the container then execute the action
   const flashAndExecute = (action) => {
     if (containerRef.current) {
       containerRef.current.classList.add('flash');
@@ -46,6 +48,7 @@ const TypeBlock = () => {
     }
   };
 
+  // Execute action immediately then flash the container
   const executeAndFlash = (action) => {
     action();
     if (containerRef.current) {
@@ -82,8 +85,9 @@ const TypeBlock = () => {
   const words = text.split(' ');
 
   const handleKeyDown = (e) => {
-    if (endTime) return;
+    if (endTime) return; // Ignore input if test is complete
 
+    // Start timer on first valid character
     if (!startTime && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
       setStartTime(Date.now());
     }
@@ -94,6 +98,7 @@ const TypeBlock = () => {
       return;
     }
 
+    // If Enter (or GO) is pressed (for mobile)
     if (e.key === "Enter") {
       e.preventDefault();
       if (userInput.trim().length > 0) {
@@ -110,6 +115,7 @@ const TypeBlock = () => {
       return;
     }
 
+    // When space is pressed (desktop)
     if (e.key === " ") {
       e.preventDefault();
       const typedWord = userInput;
@@ -133,8 +139,10 @@ const TypeBlock = () => {
     }
   };
 
+  // New effect to catch space input on mobile via onChange
   useEffect(() => {
     if (!endTime && userInput.endsWith(" ")) {
+      // Process the current word when a trailing space is detected
       const typedWord = userInput.trim();
       const expectedWord = words[currentWordIndex];
       const isCorrect = typedWord === expectedWord;
@@ -152,15 +160,12 @@ const TypeBlock = () => {
 
   const handleReset = () => flashAndExecute(initializeTest);
 
+  // NEW: Finish handler that ends the test and calculates the result
   const handleFinish = () => {
-    if (endTime) return;
-
-    // Force close mobile keyboard and focus
-    if (inputRef.current) {
-      inputRef.current.blur();
-      inputRef.current = null;
-    }
-
+    if (endTime) return; // Test already finished
+    if (inputRef.current) inputRef.current.blur();
+    
+    // Process current word if there's input
     if (userInput.trim() !== "") {
       const typedWord = userInput.trim();
       const expectedWord = words[currentWordIndex];
@@ -168,30 +173,21 @@ const TypeBlock = () => {
       const newStatus = [...wordStatus];
       newStatus[currentWordIndex] = isCorrect ? 'correct' : 'incorrect';
       setWordStatus(newStatus);
-      setCurrentWordIndex(prev => prev + 1);
+      setCurrentWordIndex(prev => prev + 1); // Critical fix here
     }
-
+    
     setEndTime(Date.now());
-
-    // Mobile scroll to results
-    setTimeout(() => {
-      statsRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest'
-      });
-    }, 100);
   };
-
   let stats = null;
   if (endTime && startTime) {
     const correctCount = wordStatus.filter(status => status === 'correct').length;
-    const processedWords = currentWordIndex;
-    const accuracy = processedWords > 0
+    const processedWords = currentWordIndex; // ✅ Fix: Use actually processed words
+    const accuracy = processedWords > 0 
       ? ((correctCount / processedWords) * 100).toFixed(2)
       : 0;
     const timeTakenSec = ((endTime - startTime) / 1000).toFixed(2);
     const timeTakenMin = (endTime - startTime) / 60000;
-    const wpm = timeTakenMin > 0
+    const wpm = timeTakenMin > 0 
       ? (correctCount / timeTakenMin).toFixed(2)
       : 0;
     stats = { accuracy, wpm, timeTakenSec };
@@ -287,12 +283,7 @@ const TypeBlock = () => {
             <button onClick={handleReset} className="reset-button">
               Reset
             </button>
-            <button
-              onClick={handleFinish}
-              onTouchEnd={handleFinish} // Mobile touch support
-              className="finish-button"
-              style={{ touchAction: 'manipulation' }} // Disable double-tap zoom
-            >
+            <button onClick={handleFinish} className="finish-button">
               Finish
             </button>
           </div>

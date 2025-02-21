@@ -345,60 +345,28 @@
 }
 
 /* Responsive adjustments for mobile devices */
-/* Responsive adjustments for mobile devices */
 @media (max-width: 600px) {
     .typeblock-container {
         min-width: 75vw;
         margin: 1rem;
         padding: 15px;
-        padding-bottom: 100px; /* Add space for bottom buttons */
     }
     .text-display {
         font-size: 1rem;
         line-height: 1.5rem;
-        margin-bottom: 60px; /* Prevent overlap with buttons */
     }
     .button-group {
         flex-direction: column;
         gap: 8px;
     }
-    /* Right buttons fix */
     .button-group .rightbuttons button {
-        font-size: 0.7rem;
+        font-size: x-small;
         text-align: center;
-        min-width: 90px;
-        height: 40px;
-        padding: 6px 8px;
-        line-height: 1.2;
+        min-width: 75px;
+        height: 50px;
     }
     .rightbuttons {
-        margin: 0;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-    }
-
-    /* Add these critical mobile button fixes */
-    .control-buttons {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1000;
-        display: flex;
-        gap: 15px;
-        background: linear-gradient(transparent 0%, rgba(22,59,86,0.9) 60%);
-        padding: 10px 15px;
-        border-radius: 8px;
-    }
-
-    .finish-button, .reset-button {
-        min-width: 80px;
-        min-height: 44px; /* Minimum touch target size */
-        padding: 12px 20px;
-        font-size: 0.9rem;
-    }
-
-    .stats {
-        margin-bottom: 80px; /* Prevent hidden by buttons */
+        margin: 0px;
+        justify-content: start;
     }
 }
