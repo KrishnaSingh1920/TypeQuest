@@ -262,8 +262,8 @@
 /* Hidden input for mobile compatibility */
 .hidden-input {
     position: absolute;
+    left: -9999px;
     opacity: 0;
-    pointer-events: none;
 }
 
 .leftbuttons {
@@ -312,5 +312,15 @@
     .button-group {
         flex-direction: column;
         gap: 8px;
+    }
+    .button-group .rightbuttons button {
+        font-size: x-small;
+        text-align: center;
+        min-width: 75px;
+        height: 50px;
+    }
+    .rightbuttons {
+        margin: 0px;
+        justify-content: start;
     }
 }
