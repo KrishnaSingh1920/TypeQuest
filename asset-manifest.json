@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/TypeQuest/static/css/main.d5aeb729.css",
-    "main.js": "/TypeQuest/static/js/main.b019086e.js",
+    "main.css": "/TypeQuest/static/css/main.816e4194.css",
+    "main.js": "/TypeQuest/static/js/main.f6da0e89.js",
     "static/js/453.84db8c4f.chunk.js": "/TypeQuest/static/js/453.84db8c4f.chunk.js",
     "index.html": "/TypeQuest/index.html",
-    "main.d5aeb729.css.map": "/TypeQuest/static/css/main.d5aeb729.css.map",
-    "main.b019086e.js.map": "/TypeQuest/static/js/main.b019086e.js.map",
+    "main.816e4194.css.map": "/TypeQuest/static/css/main.816e4194.css.map",
+    "main.f6da0e89.js.map": "/TypeQuest/static/js/main.f6da0e89.js.map",
     "453.84db8c4f.chunk.js.map": "/TypeQuest/static/js/453.84db8c4f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d5aeb729.css",
-    "static/js/main.b019086e.js"
+    "static/css/main.816e4194.css",
+    "static/js/main.f6da0e89.js"
   ]
 }
