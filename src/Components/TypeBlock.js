@@ -160,6 +160,21 @@ const TypeBlock = () => {
 
   const handleReset = () => flashAndExecute(initializeTest);
 
+  // NEW: Finish handler that ends the test and calculates the result
+  const handleFinish = () => {
+    if (endTime) return; // Test already finished
+    // Process the current word if there's any input
+    if (userInput.trim() !== "") {
+      const typedWord = userInput.trim();
+      const expectedWord = words[currentWordIndex];
+      const isCorrect = typedWord === expectedWord;
+      const newStatus = [...wordStatus];
+      newStatus[currentWordIndex] = isCorrect ? 'correct' : 'incorrect';
+      setWordStatus(newStatus);
+    }
+    setEndTime(Date.now());
+  };
+
   let stats = null;
   if (endTime && startTime) {
     const correctCount = wordStatus.filter(status => status === 'correct').length;
@@ -256,9 +271,14 @@ const TypeBlock = () => {
             autoCorrect="off"
           />
 
-          <button onClick={handleReset} className="reset-button">
-            Reset
-          </button>
+          <div className="control-buttons">
+            <button onClick={handleReset} className="reset-button">
+              Reset
+            </button>
+            <button onClick={handleFinish} className="finish-button">
+              Finish
+            </button>
+          </div>
 
           {endTime && stats && (
             <div className="stats">

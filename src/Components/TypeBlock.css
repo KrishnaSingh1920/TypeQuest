@@ -1,3 +1,27 @@
+.finish-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: linear-gradient(315deg, #b0f0ff, #8ddfff, #6cbfff, #4a9fff, #177cff, #137ff5, #0f6bd1);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    border-radius: 4px;
+    border: 1px solid rgb(240, 239, 255);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin: 0 auto;
+}
+
+.finish-button:hover {
+    background: linear-gradient(315deg, #0f6bd1, #137ff5, #177cff, #4a9fff, #6cbfff, #8ddfff, #b0f0ff);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    transform: scale(1.05);
+}
+
+/* Complete CSS */
+
 .typeblock {
     display: flex;
     align-items: center;
@@ -128,6 +152,28 @@
 }
 
 .reset-button:hover {
+    background: linear-gradient(315deg, #0f6bd1, #137ff5, #177cff, #4a9fff, #6cbfff, #8ddfff, #b0f0ff);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    transform: scale(1.05);
+}
+
+.finish-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: linear-gradient(315deg, #b0f0ff, #8ddfff, #6cbfff, #4a9fff, #177cff, #137ff5, #0f6bd1);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    border-radius: 4px;
+    border: 1px solid rgb(240, 239, 255);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin: 10px auto;
+}
+
+.finish-button:hover {
     background: linear-gradient(315deg, #0f6bd1, #137ff5, #177cff, #4a9fff, #6cbfff, #8ddfff, #b0f0ff);
     background-size: 400% 400%;
     animation: gradient 5s ease infinite;
