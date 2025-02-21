@@ -163,6 +163,8 @@ const TypeBlock = () => {
   // NEW: Finish handler that ends the test and calculates the result
   const handleFinish = () => {
     if (endTime) return; // Test already finished
+    // Blur the input to close the mobile keyboard
+    if (inputRef.current) inputRef.current.blur();
     // Process the current word if there's any input
     if (userInput.trim() !== "") {
       const typedWord = userInput.trim();
